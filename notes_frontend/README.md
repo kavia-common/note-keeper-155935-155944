@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Note Keeper – Frontend (Next.js)
 
-## Getting Started
+A modern, minimalistic notes app with a sidebar for listing/searching notes and a clean editor interface for creating, viewing, editing, and deleting notes.
 
-First, run the development server:
+## Tech stack
+- Next.js App Router
+- React (client-side rendering)
+- Tailwind CSS v4 (utilities via `@import "tailwindcss"`)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+- Create, edit, and delete notes
+- List and search notes
+- Responsive two-pane layout (sidebar + editor)
+- Light, minimal UI with responsive design
+
+## Configuration
+
+Create an `.env` file in this directory using the template below (see `.env.example`):
+
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This should point to the `notes_database` backend base URL.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Expected API (notes_database)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The frontend expects these REST endpoints (adjust in `src/lib/api.ts` if your backend differs):
 
-## Learn More
+- GET    /api/notes           -> `{ notes: Note[] }`
+- GET    /api/notes/:id       -> `Note`
+- POST   /api/notes           -> `Note`
+- PUT    /api/notes/:id       -> `Note`
+- DELETE /api/notes/:id       -> `{ success: true }`
 
-To learn more about Next.js, take a look at the following resources:
+`Note` fields used by the UI:
+```ts
+type Note = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string; // ISO timestamp
+  updatedAt: string; // ISO timestamp
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Run locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Install dependencies and start the dev server:
 
-## Deploy on Vercel
+```bash
+npm install
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open http://localhost:3000
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Build
+
+```bash
+npm run build
+npm run start
+```
+
+This project uses static export. All dynamic content is fetched client-side from your configured API base URL.
+
+## Project structure
+
+- `src/app/page.tsx` – App entry and main state management
+- `src/components/Sidebar.tsx` – Notes list and search box
+- `src/components/Editor.tsx` – Title and content editor
+- `src/lib/api.ts` – API client for CRUD operations
+- `src/lib/utils.ts` – Debounce and formatting utils
+- `src/types/note.ts` – Shared types
+
+## Notes
+
+- Public functions include `PUBLIC_INTERFACE` comments and inline docstrings as required.
+- All configuration is read from environment variables at runtime—do not hardcode backend URLs.
+

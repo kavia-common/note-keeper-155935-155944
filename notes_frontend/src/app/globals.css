@@ -1,10 +1,15 @@
 @import "tailwindcss";
 
+/* Light theme variables aligned with request */
 :root {
-  --color-primary: #000000;
-  --color-secondary: #FFFFFF;
-  --color-accent: #3B82F6;
+  --color-primary: #3B82F6;   /* primary */
+  --color-secondary: #6366F1; /* secondary */
+  --color-accent: #F59E42;    /* accent */
   --color-background: #FFFFFF;
+  --color-foreground: #0F172A; /* slate-900 */
+  --color-muted: #64748B;      /* slate-500 */
+  --color-border: #E5E7EB;     /* gray-200 */
+  --radius-base: 10px;
 }
 
 * {
@@ -18,9 +23,117 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--color-background);
-  color: var(--color-primary);
+  color: var(--color-foreground);
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji,
+    "Segoe UI Symbol", "Noto Sans", "Noto Sans CJK JP", "Noto Sans CJK SC",
+    "Noto Sans CJK KR";
+}
+
+/* Smooth focus outline for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Utility classes to complement Tailwind for the minimalist look */
+.container-app {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .container-app {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto 1fr;
+  }
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius-base) - 2px);
+  border: 1px solid var(--color-border);
+  background: white;
+  color: var(--color-foreground);
+  padding: 0.5rem 0.75rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn:hover {
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  filter: brightness(0.95);
+}
+
+.btn-danger {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: white;
+}
+
+.input {
+  border: 1px solid var(--color-border);
+  background: white;
+  border-radius: calc(var(--radius-base) - 4px);
+  padding: 0.5rem 0.75rem;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #f8fafc;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.editor-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+}
+
+.editor-content {
+  width: 100%;
+  min-height: 50vh;
+  border: none;
+  outline: none;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.separator {
+  height: 1px;
+  background: var(--color-border);
 }
